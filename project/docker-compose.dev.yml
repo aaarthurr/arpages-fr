@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  # 1. Database (Same as prod)
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    ports:
+      - "5432:5432" # Optional: lets you connect with DBeaver/PGAdmin from your host
+
+  # 2. Django Backend (Dev Mode)
+  backend:
+    build: ./backend
+    # RELOAD ENABLED: We use runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - .env
+    volumes:
+      - ./backend:/app # SYNC: Maps your local code to the container
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  # 3. Frontend (Vite Dev Server)
+  frontend:
+    build:
+      context: ./frontend
+      target: build # We only use the 'node' stage, not the nginx stage
+    # HOST FLAG: Essential for Docker to expose the port
+    command: npm run dev -- --host
+    volumes:
+      - ./frontend:/app # SYNC: Maps local changes to container
+      - /app/node_modules # PRESERVE: Keeps container's node_modules safe from local overwrites
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data_dev:

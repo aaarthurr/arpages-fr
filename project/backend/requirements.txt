@@ -3,3 +3,4 @@ psycopg[binary]
 djangorestframework
 dj-database-url
 gunicorn
+requests

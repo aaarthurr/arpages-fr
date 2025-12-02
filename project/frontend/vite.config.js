@@ -7,11 +7,21 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5173,
     watch: {
-      usePolling: true,  // Better file watching in Docker
-      interval: 100
+      usePolling: true, // Crucial for Docker on Windows/WSL2
     },
-    hmr: {
-      host: 'localhost'  // Hot Module Replacement
+    // PROXY SETUP
+    proxy: {
+      '/api': {
+        target: 'http://backend:8000', // Docker service name
+        changeOrigin: true,
+        secure: false,
+      },
+      // If you serve media files from django, proxy them too
+      '/media': {
+        target: 'http://backend:8000',
+        changeOrigin: true,
+        secure: false,
+      }
     }
   }
 })

@@ -16,48 +16,6 @@
 	overflow-x: hidden; /* Prevent horizontal scroll */
   }
   
-  .site-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	padding: 1rem 2rem; /* Add horizontal padding here instead */
-	text-align: center;
-	position: relative;
-	/* border: greenyellow 1px solid; */
-  }
-  
-
-
-  .site-footer {
-	padding: 1rem 0;
-	text-align: center;
-	position: absolute;
-	bottom: 2rem; /* Use rem instead of % */
-	left: 50%;
-	transform: translateX(-50%); /* Properly center */
-  }
-  
-  .header-button {
-	appearance: none;
-	margin-left: 25px;
-	margin-right: 25px;
-	width: 105px;
-	font-size: 1.3rem;
-	background-color: transparent;
-	border: none;
-	font-family: 'Montserrat', serif;
-	font-weight: 400;
-	color: var(--text);
-	transform: scale(1);
-	will-change: transform;
-	transition: transform 200ms ease-in-out, color 200ms ease-in-out;
-  } 
-  
-  .header-button:hover {
-	transform: scale(1.1);
-	color: var(--primary);
-  }	
-  
   .site-title {
 	font-family: 'Montserrat', serif;
 	font-weight: 100;
@@ -68,14 +26,28 @@
   .site-main {
 	/* border: blue 1px solid; */
 	width: 100%;
-	margin: 2rem 0; /* Remove auto margins */
+	margin: 0rem 0; /* Removed margin to let hero fill space */
 	padding: 0 2rem; /* Add padding for content spacing */
 	position: relative; /* Required for z-index to work */
 	z-index: 10; /* Ensure main content is above stars */
   }
+
+/* --- HERO SECTION WRAPPER --- */
+.hero-section {
+    min-height: 85vh; /* Takes up 85% of viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Spreads content out */
+    align-items: center;
+}
   
 .intro-text-section {
-	margin-bottom: 2rem;
+	/* Changed to align top-left */
+    width: 100%;
+    display: flex;
+    justify-content: flex-start; /* Align content to the left */
+    padding-top: 5vh;   /* Push down from header */
+    padding-left: 2vw;  /* Push right from edge */
   }
   
 .intro-text {
@@ -83,8 +55,9 @@
 	gap: 1px;
 	padding: 1px;
 	line-height: 1.2;
-	font-size: 6.6vw;
+	font-size: 4.6vw;
 	width: 60%;
+    text-align: left; /* Ensure text aligns left */
 	z-index: 10; /* High z-index to stay above stars */
 	position: relative; /* Required for z-index to work */
 	word-break: normal;
@@ -93,6 +66,7 @@
 	opacity: 0;
 	transform: translateY(20px);
 	animation: intro-text-fadeIn 1s ease-out forwards;
+	white-space: pre-wrap;
 }
 
 @keyframes intro-text-fadeIn {
@@ -231,7 +205,10 @@ margin-right: 0.3em; /* Add space between words */
 }
 
 .main-button-section {
-	margin-top: 10rem;
+	/* Pushes to bottom of flex container */
+    margin-top: auto;
+    /* Adds spacing from the absolute bottom */
+    padding-bottom: 5vh; 
 	display: flex;
 	justify-content: center;
 	align-self: center;
@@ -239,8 +216,10 @@ margin-right: 0.3em; /* Add space between words */
 }
 
 .liquid_glass_discovery_button{
-	margin-top: 2rem;
-	margin-bottom: 2rem;
+    /* Handled by parent container now */
+	margin-top: 0; 
+	margin-bottom: 0;
+
 	background: rgba(255, 255, 255, 0.01);
 	border: 2px solid rgba(255, 255, 255, 0.7);
 	box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5);
@@ -290,19 +269,6 @@ margin-right: 0.3em; /* Add space between words */
 .sky_parts:hover{
 	opacity: 0.5;
 }
-
-.theme-button {
-	border: none;
-	background-color: transparent;
-	color: var(--text);
-	transition: transform 200ms ease-in-out, color 200ms ease-in-out;
-}
-
-.theme-button:hover	{
-	transform: scale(1.05);
-	color: var(--primary);
-}
-
 
 .theme-button .material-symbols-outlined {
 	font-size: 32px; /* or any size you want */

@@ -95,3 +95,13 @@
 	border-radius: 25px;
 	width: 300px;
 }
+
+.upgrade-button {
+	padding: 10px 20px;
+	font-size: 16px;
+	background-color: #008CBA; /* Blue */
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}

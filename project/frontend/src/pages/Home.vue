@@ -20,12 +20,14 @@
 
   <main class="site-main">
 
-    <section class="intro-text-section">
-      <p class="intro-text" id="catchphrase">Achieving greatness is not about luck.</p>
-    </section>
-	<section class="main-button-section">
-	  	<button class="liquid_glass_discovery_button" @click="scrollToContent">Discorver</button>
-	</section>
+	<div intro class="hero-section">
+		<section class="intro-text-section">
+		<p class="intro-text" id="catchphrase">Achieving greatness is not about luck.</p>
+		</section>
+		<section class="main-button-section">
+			<button class="liquid_glass_discovery_button" @click="scrollToContent">Discorver</button>
+		</section>
+	</div>
 
 
 

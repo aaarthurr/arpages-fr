@@ -1,53 +1,34 @@
 # Variables
-DOCKER_COMPOSE = docker-compose -f ./project/docker-compose.yml
-PROJECT_NAME = arpages
+COMPOSE_DEV = docker-compose -f ./project/docker-compose.dev.yml
+COMPOSE_PROD = docker-compose -f ./project/docker-compose.yml
 
-.PHONY: all up down build logs migrate shell
+.PHONY: all dev up-prod down-dev down-prod build-dev logs-dev shell
 
-all: build up
-
-build:
-	@echo "Building Docker images..."
-	$(DOCKER_COMPOSE) build
-
-prune:
-	@echo "Removing Docker images..."
-	docker system prune -af
-
-up:
-	@echo "Starting Docker containers..."
-	$(DOCKER_COMPOSE) up -d
+# --- DEV COMMANDS ---
+dev: 
+	@echo "Starting DEV environment (Hot Reload)..."
+	$(COMPOSE_DEV) up --build
 
 down:
-	@echo "Stopping Docker containers..."
-	$(DOCKER_COMPOSE) down
+	@echo "Stopping DEV containers..."
+	$(COMPOSE_DEV) down
 
 logs:
-	@echo "Showing logs..."
-	$(DOCKER_COMPOSE) logs -f
+	$(COMPOSE_DEV) logs -f
 
 migrate:
-	@echo "Applying Django migrations..."
-	$(DOCKER_COMPOSE) exec web python manage.py migrate
+	$(COMPOSE_DEV) exec backend python manage.py migrate
 
 makemigrations:
-	@echo "Creating Django migrations..."
-	$(DOCKER_COMPOSE) exec web python manage.py makemigrations
+	$(COMPOSE_DEV) exec backend python manage.py makemigrations
 
 shell:
-	@echo "Opening Django shell..."
-	$(DOCKER_COMPOSE) exec web python manage.py shell
+	$(COMPOSE_DEV) exec backend python manage.py shell
 
-fake:
-	$(DOCKER_COMPOSE) exec web python manage.py migrate web --fake
+# --- PROD COMMANDS ---
+prod:
+	@echo "Starting PRODUCTION environment..."
+	$(COMPOSE_PROD) up -d --build
 
-zero:
-	$(DOCKER_COMPOSE) exec web  python manage.py migrate web zero
-	rm -rf web/migrations/*
-	$(DOCKER_COMPOSE) exec web  python manage.py makemigrations web
-	$(DOCKER_COMPOSE) exec web  python manage.py migrate
-
-show: 
-	$(DOCKER_COMPOSE) exec web  python manage.py showmigrations web
-post:
-	docker exec -it mypostgresdb psql -U myuser -d postgres
+down-prod:
+	$(COMPOSE_PROD) down

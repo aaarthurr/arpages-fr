@@ -17,6 +17,31 @@ export async function scrollToContent() {
 }
 
 
+export async function getQuote() {
+    try {
+        const response = await fetch('/api/quote/');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Fetched quote:', data.text);
+
+        let quote = `Welcome to Arpages.fr !`;
+
+        if (!data.author || data.author.trim()  === "" || data.author === "Unknown") {
+            quote = `${data.text}`;
+        }
+        else {
+            quote = `"${data.text}" - ${data.author}`;
+        }
+        return quote;
+    } catch (error) {
+        console.error('Error fetching quote:', error);
+        // Return a fallback so the UI doesn't break
+        return quote;
+    }
+}
+
 
 async function getLine(file, index) {
 	try {
@@ -46,8 +71,7 @@ export function select_random_catchphrase() {
 		return;
 	}
 	
-	const line = Math.floor(Math.random() * 13); // Random line number between 0 and 12 (array index)
-	getLine("/catchphrases.txt", line).then(catchphrase => {
+	getQuote().then(catchphrase => {
 		if (catchphrase) {
 			console.log("Selected catchphrase:", catchphrase); // Debug log
 			catchphraseElement.textContent = catchphrase;

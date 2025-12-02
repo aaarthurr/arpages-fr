@@ -6,24 +6,27 @@ export function createGameData() {
   return {
 	cash : 100,
 	cash_per_second: 0,
-    numRolls: 1,
-    numTries: 1,
+  rollUpgradeLevel: 1,
+  rollUpgradePrice: 250,
+  luckUpgradeLevel: 1,
+  luckUpgradePrice: 1500,
+  multiplicator: 1.15,
 	number_of_rolls: 0, // Default number of rolls
-	price: 0,
-    results: [],
-    generators: [
-      new Generator('basic : 1/2', 1, 2, 1, 1, 0, []),      // quantity: 0 (hidden)
-      new Generator('basic : 1/4', 2, 4, 5, 5, 0, []),    // quantity: 2 (visible)
-      new Generator('basic : 1/8', 3, 8, 10, 10, 0, []),  // quantity: 1 (visible)
-      new Generator('common : 1/15', 4, 15, 20, 20, 0, []),     // quantity: 0 (hidden)
-      new Generator('common : 1/25', 5, 25, 50, 50, 0, []),   // quantity: 0 (hidden)
-      new Generator('common : 1/50', 6, 50, 100, 100, 0, []), // quantity: 0 (hidden)
-      new Generator('uncommon : 1/100', 7, 100, 250, 250, 0, []),  // quantity: 0 (hidden)
-      new Generator('uncommon : 1/500', 8, 500, 750, 750, 0, []), // quantity: 0 (hidden)
-      new Generator('uncommon : 1/1000', 9, 1000, 1500, 1500, 0, []), // quantity: 0 (hidden)
-      new Generator('rare : 1/2500', 10, 2500, 2750, 2750, 0, []) // quantity: 0 (hidden)
-    ]
-  }
+	price: 50,
+  results: [],
+  generators: [
+    new Generator('basic : 1/2', 1, 2, 1, 1, 0, []),      // quantity: 0 (hidden)
+    new Generator('basic : 1/4', 2, 4, 5, 5, 0, []),    // quantity: 2 (visible)
+    new Generator('basic : 1/8', 3, 8, 10, 10, 0, []),  // quantity: 1 (visible)
+    new Generator('common : 1/15', 4, 15, 20, 20, 0, []),     // quantity: 0 (hidden)
+    new Generator('common : 1/25', 5, 25, 50, 50, 0, []),   // quantity: 0 (hidden)
+    new Generator('common : 1/50', 6, 50, 100, 100, 0, []), // quantity: 0 (hidden)
+    new Generator('uncommon : 1/100', 7, 100, 250, 250, 0, []),  // quantity: 0 (hidden)
+    new Generator('uncommon : 1/500', 8, 500, 750, 750, 0, []), // quantity: 0 (hidden)
+    new Generator('uncommon : 1/1000', 9, 1000, 1500, 1500, 0, []), // quantity: 0 (hidden)
+    new Generator('rare : 1/2500', 10, 2500, 2750, 2750, 0, []) // quantity: 0 (hidden)
+  ]
+}
 }
 
 
@@ -44,10 +47,12 @@ export function rollDice() {
 		throw new Error("Not enough cash to roll the dice.");
 	}
 	this.cash -= this.price
-	this.number_of_rolls += this.numRolls
-	this.price = ((this.number_of_rolls * 10) * this.number_of_rolls) + this.number_of_rolls * (this.price / 100)
+	this.number_of_rolls += 1
+  console.log("next price before calculation:", this.price)
+	this.price = (this.price * (this.multiplicator * ((this.number_of_rolls / 1000) + 1))) * this.multiplicator
+  console.log("next price after calculation:", this.price)
 	this.price = Math.round(this.price)
-  	return simulateMultipleRolls(this.numRolls, this.numTries)
+  return simulateMultipleRolls(this.rollUpgradeLevel, this.luckUpgradeLevel)
 }
 
 export function formatProbability(index) {
@@ -113,3 +118,23 @@ export function stopGameLoop() {
 }
 
 
+
+export function upgradeLuckLevel(gameData) {
+  if (gameData.cash >= gameData.luckUpgradePrice) {
+    gameData.cash -= gameData.luckUpgradePrice;
+    gameData.luckUpgradeLevel += 1;
+    gameData.luckUpgradePrice = Math.round(gameData.luckUpgradePrice * ((gameData.multiplicator * 2) * gameData.luckUpgradeLevel));
+  } else {
+    console.warn("Not enough cash to upgrade luck."); // Better than throwing error for UI
+  }
+}
+
+export function upgradeRollLevel(gameData) {
+  if (gameData.cash >= gameData.rollUpgradePrice) {
+    gameData.cash -= gameData.rollUpgradePrice;
+    gameData.rollUpgradeLevel += 1;
+    gameData.rollUpgradePrice = Math.round(gameData.rollUpgradePrice * ((gameData.multiplicator * 2) * gameData.rollUpgradeLevel));
+  } else {
+    console.warn("Not enough cash to upgrade rolls.");
+  }
+}

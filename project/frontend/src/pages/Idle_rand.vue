@@ -9,20 +9,22 @@
 
   <div class="game-stats">
 	<p>Cash per second: {{ cash_per_second }}</p>
-	<p>Luck multiplicator: {{ numRolls }}</p>
-	<p>Rolls multiplicator: {{ numTries }}</p>
+	<p>Luck multiplicator: {{ rollUpgradeLevel }}</p>
+	<p>Rolls multiplicator: {{ luckUpgradeLevel }}</p>
   </div>
 
-	<div class="game-shop">
-		<div class="game-shop-item">
-			<p>Luck Upgrade :</p>
-			<button >Upgrade Luck</button>
-		</div>
-		<div class="game-shop-item">
-			<p>Luck Upgrade :</p>
-			<button >Upgrade Luck</button>
-		</div>
-	</div>
+  <div class="game-shop">
+    <div class="game-shop-item">
+      <p>Luck Upgrade : {{ luckUpgradeLevel }}</p>
+      <!-- Calling the wrapper method -->
+      <button class="upgrade-button" @click="buyLuckUpgrade">Price: {{luckUpgradePrice }}</button>
+    </div>
+    <div class="game-shop-item">
+      <p>Roll Upgrade : {{ rollUpgradeLevel }}</p>
+      <!-- Calling the wrapper method -->
+      <button class="upgrade-button" @click="buyRollUpgrade">Price: {{rollUpgradePrice }}</button>
+    </div>
+  </div>
   
     <div v-if="results && results.length > 0">
       <h3>Results ({{ results.length }} rolls):</h3>
@@ -53,8 +55,22 @@
 </template>
 
 <script>
-import { createGameData, rollDice, formatProbability, getOwnedGenerators, purchaseGenerator, incrementGeneratorQuantity, startGameLoop, stopGameLoop, update_price_per_second } from '../script/game-script.js'
-import '../assets/game_style.css' // ✅ Page-specific CSS
+// ✅ Import the new functions
+import { 
+  createGameData, 
+  rollDice, 
+  formatProbability, 
+  getOwnedGenerators, 
+  purchaseGenerator, 
+  incrementGeneratorQuantity, 
+  startGameLoop, 
+  stopGameLoop, 
+  update_price_per_second,
+  upgradeLuckLevel, // Import this
+  upgradeRollLevel  // Import this
+} from '../script/game-script.js'
+
+import '../assets/game_style.css'
 
 export default {
   name: 'IdleDice',
@@ -62,14 +78,11 @@ export default {
     return createGameData()
   },
   mounted() {
-    // Start the game loop when component mounts
     this.gameLoop = startGameLoop(this.$data, () => {
-      // Update cash_per_second whenever generators change
       this.cash_per_second = update_price_per_second(this.generators);
     });
   },
   beforeUnmount() {
-    // Clean up when component is destroyed
     stopGameLoop();
   },
   computed: {
@@ -78,7 +91,18 @@ export default {
     }
   },
   methods: {
+    // ✅ WRAPPER METHODS: Pass the Vue state (this.$data) to the logic function
+    buyLuckUpgrade() {
+      upgradeLuckLevel(this.$data);
+    },
+
+    buyRollUpgrade() {
+      upgradeRollLevel(this.$data);
+    },
+
     rollDice() {
+      // Note: rollDice in script uses 'this', so we must call it with 'this' context
+      // Or refactor it like upgrade functions to take state as arg
       this.results = rollDice.call(this)
 	  for (let i = 0; i < this.results.length; i++) {
 		if (this.results[i] !== null) {
