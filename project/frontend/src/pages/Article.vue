@@ -57,6 +57,8 @@
 import '../assets/home_style.css'
 import '../assets/home_theme.css'
 
+import img42Perpi from '../assets/42_perpi.jpg'
+
 export default {
   name: 'ArticlePage',
   data() {
@@ -78,7 +80,7 @@ export default {
         'Ecole-42': {
           title: "Ecole 42",
           tag: "Education",
-          image: "/assets/42_perpi.jpg", // Placeholder
+          image: img42Perpi, // Placeholder
           description: "My journey at Ecole 42, from the piscine to internship and specialisation.",
           content: `
             <p>The école 42 is a french computer science school known for its innovative peer-to-peer learning approach.</p>
