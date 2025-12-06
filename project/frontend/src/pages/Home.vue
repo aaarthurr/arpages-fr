@@ -37,13 +37,13 @@
 		<div class="posts-grid">
 			<article class="glass-card">
 				<div class="card-image">
-					<img src="../assets/mango.jpeg" alt="Project Image">
+					<img src="../assets/42_perpi.jpg" alt="Project Image">
 				</div>
 				<div class="card-content">
-					<span class="card-tag">Portfolio</span>
-					<h3>Project Alpha</h3>
-					<p>A deep dive into modern web aesthetics using Vue.js and dynamic animations.</p>
-					<a href="#" class="card-link">Read More &rarr;</a>
+					<span class="card-tag">Education</span>
+					<h3>Ecole 42</h3>
+					<p>My journey at Ecole 42, from the piscine to internship and specialisation.</p>
+					<router-link to="/article/Ecole-42" class="card-link">Read More &rarr;</router-link>
 				</div>
 			</article>
 
@@ -55,7 +55,7 @@
 					<span class="card-tag">Design</span>
 					<h3>Creative Flow</h3>
 					<p>Exploring the boundaries of CSS animations and liquid interfaces.</p>
-					<a href="#" class="card-link">Read More &rarr;</a>
+					<router-link to="/article/creative-flow" class="card-link">Read More &rarr;</router-link>
 				</div>
 			</article>
 		</div>
