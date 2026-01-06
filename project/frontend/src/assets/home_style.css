@@ -6,7 +6,7 @@
   }
   
   body {
-	background-color: var(--background);
+  background-color: var(--background);
 	color: var(--text);
 	font-family: Arial, Helvetica, sans-serif;
 	line-height: 1.6;
@@ -14,6 +14,7 @@
 	font-family: 'Montserrat', serif;
 	transition: background-color 200ms ease-in-out;
 	overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
   }
   
   .site-title {
@@ -216,7 +217,6 @@ margin-right: 0.3em; /* Add space between words */
 }
 
 .liquid_glass_discovery_button{
-    /* Handled by parent container now */
 	margin-top: 0; 
 	margin-bottom: 0;
 
@@ -268,6 +268,7 @@ margin-right: 0.3em; /* Add space between words */
 
 .sky_parts:hover{
 	opacity: 0.5;
+  filter: blur(150px);
 }
 
 .theme-button .material-symbols-outlined {
@@ -292,8 +293,6 @@ margin-right: 0.3em; /* Add space between words */
   .rotate {
 	animation: rotate-icon 0.4s ease-in-out;
   }
-  
-
 
 /* Shooting stars animation */
 .stars {
@@ -343,4 +342,18 @@ margin-right: 0.3em; /* Add space between words */
   color: red;
   background-color: red;
   border-radius: 10px 20px 10px 20px / 20px 10px 20px 10px;
+}
+
+
+.keyboard-section {
+    width: 100%;
+    height: 1400px; /* Needs explicit height for the canvas */
+    margin-top: 100px; /* Pull it up closer to text if needed */
+    margin-bottom: 20px;
+    z-index: 10;
+    position: relative;
+}
+
+#skills-section {
+    scroll-margin-top: 100px;
 }

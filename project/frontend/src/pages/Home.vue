@@ -24,11 +24,15 @@
 		<section class="intro-text-section">
 		<p class="intro-text" id="catchphrase">Achieving greatness is not about luck.</p>
 		</section>
+
 		<section class="main-button-section">
-			<button class="liquid_glass_discovery_button" @click="scrollToContent">Discorver</button>
+			<button class="liquid_glass_discovery_button" @click="scrollToContent">Discover</button>
 		</section>
 	</div>
 
+	<section class="keyboard-section" id="skills-section">
+             <SkillsKeyboard />
+    </section>
 
 
 	<section class="post-section" id="content-section">
@@ -74,8 +78,13 @@ import '../assets/home_style.css' // ✅ Page-specific CSS
 import '../assets/home_theme.css' // ✅ Page-specific CSS
 import {select_random_catchphrase, initializeTextAnimation, initializeTheme, scrollToContent } from '../script/home.js' // ✅ Import functions
 
+import SkillsKeyboard from '../components/SkillsKeyboard.vue';
+
 export default {
   name: 'Home',
+  components: {
+	SkillsKeyboard
+  },
   methods: {
 	scrollToContent
   },

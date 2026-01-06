@@ -9,8 +9,8 @@ let shootingStarInterval;
 
 
 export async function scrollToContent() {
-    const contentSection = document.getElementById('content-section');
-    console.log("Scrolling to content section:", contentSection); // Debug log
+    const contentSection = document.getElementById('skills-section');
+    console.log("Scrolling to content section:", contentSection);
     if (contentSection) {
       contentSection.scrollIntoView({ behavior: 'smooth' });
     }
@@ -40,28 +40,6 @@ export async function getQuote() {
         // Return a fallback so the UI doesn't break
         return quote;
     }
-}
-
-
-async function getLine(file, index) {
-	try {
-		// Check if file exists by trying to fetch HEAD first
-		const headRes = await fetch(file, { method: 'HEAD' });
-		if (!headRes.ok) {
-			throw new Error(`File not found or inaccessible: ${file}`);
-		}
-
-		const res = await fetch(file);
-		if (!res.ok) {
-			throw new Error(`HTTP error! status: ${res.status}`);
-		}
-		const catchphrase = await res.text();	
-		const lines = catchphrase.split(/\r?\n/).filter(line => line.trim() !== "");
-		return lines[index] ?? null; // returns null if out of range
-	} catch (error) {
-		console.error('Error fetching catchphrases:', error);
-		return null;
-	}
 }
 
 export function select_random_catchphrase() {
